@@ -23,6 +23,7 @@ ITEM FRENTE(FILA P);
 ITEM TOP(FILA P);
 FILA POP(FILA P);
 FILA DEFILA(FILA *P);
+FILA DEFILAX(FILA *P, ITEM I);
 int ESSIMETRICA(FILA P);
 FILA INVERTIRLISTA(FILA P); // como usuario
 int INCLUIDA(FILA P1, FILA P2); // como usuario
@@ -140,6 +141,33 @@ FILA DEFILA(FILA *P){
     }
     ANT->siguiente = NULL;
     free(AUX);
+    return *P;
+}
+
+FILA DEFILAX(FILA *P, ITEM I){
+    ELEMENTO * ACT, *ANT;
+    ACT = P->frente;
+
+    if(ACT != NULL && ACT->dato == I){        
+        P->frente = P->frente->siguiente;
+        free(ACT);
+    }else{
+
+        while (ACT != NULL){
+        if(ACT->dato == I){            
+            printf("ANT:%d, ACT:%d", ANT->dato, ACT->dato);
+            ANT->siguiente = ACT->siguiente;
+            ACT = NULL;
+            free(ACT);
+        }else{
+            ANT = ACT;
+        }        
+        ACT = ANT->siguiente;
+    }
+
+    }
+
+    
     return *P;
 }
 
