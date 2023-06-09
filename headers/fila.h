@@ -157,7 +157,7 @@ FILA DEFILAX(FILA *F, ITEM I){
         ANT = ACT;
         ACT = ANT->siguiente;
     }
-    //free(F);
+    //free(F); 
     *F = NF;
     /*while (ACT != NULL) {
         if (ACT->dato == I) {
