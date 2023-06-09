@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define INDEF -9999;FILA
+#define INDEF -9999;
 
 
 typedef int ITEM;
@@ -11,26 +11,27 @@ typedef struct ELEMENTO{
 
 typedef struct FILA{
     struct ELEMENTO * frente;
-    int altura;
+    struct ELEMENTO * final;
+    int longitud;
 }FILA;
 
 
 // OPERACIONES
-FILA FILAVACIA(); // FILA *P
-FILA ENFILA(FILA P, ITEM I);
-FILA PUSHF(FILA P, ITEM I);
-ITEM FRENTE(FILA P);
-ITEM TOP(FILA P);
-FILA POP(FILA P);
-FILA DEFILA(FILA *P);
-FILA DEFILAX(FILA *P, ITEM I);
-int ESSIMETRICA(FILA P);
-FILA INVERTIRLISTA(FILA P); // como usuario
+FILA FILAVACIA(); // FILA *F
+FILA ENFILA(FILA F, ITEM I);
+FILA PUSHF(FILA F, ITEM I);
+ITEM FRENTE(FILA F);
+ITEM TOP(FILA F);
+FILA POP(FILA F);
+FILA DEFILA(FILA *F);
+FILA DEFILAX(FILA *F, ITEM I);
+int ESSIMETRICA(FILA F);
+FILA INVERTIRLISTA(FILA F); // como usuario
 int INCLUIDA(FILA P1, FILA P2); // como usuario
-int ESFILAVACIA(FILA P);
-void MOSTRAR(FILA P);
-int LONGITUD(FILA P);
-int PERTENECE(FILA P, ITEM I);
+int ESFILAVACIA(FILA F);
+void MOSTRAR(FILA F);
+int LONGITUD(FILA F);
+int PERTENECE(FILA F, ITEM I);
 int IGUALF(FILA F1, FILA F2);
 
 int IGUALF(FILA F1, FILA F2){
@@ -47,39 +48,39 @@ int IGUALF(FILA F1, FILA F2){
     }
 }
 
-int PERTENECE(FILA P, ITEM I){
+int PERTENECE(FILA F, ITEM I){
 
-    while (P.frente != NULL){
-        if(P.frente->dato == I){
+    while (F.frente != NULL){
+        if(F.frente->dato == I){
             return 0;
         }
-        P.frente = P.frente->siguiente;
+        F.frente = F.frente->siguiente;
     }
     return 1;
 }
 
-int LONGITUD(FILA P){
+int LONGITUD(FILA F){
     int cont = 0;
 
-    while (P.frente != NULL){
+    while (F.frente != NULL){
         cont ++;
-        P.frente = P.frente->siguiente;
+        F.frente = F.frente->siguiente;
     }
     return cont;
 }
 
 
 // SEMANTICA
-int ESFILAVACIA(FILA P){
-    return P.frente == NULL;// ? 1 : 0;
+int ESFILAVACIA(FILA F){
+    return F.frente == NULL;// ? 1 : 0;
 }
 
-void MOSTRAR(FILA P){
+void MOSTRAR(FILA F){
     printf("\n");
-    while (P.frente != NULL)
+    while (F.frente != NULL)
     {
-        printf("[%d]", P.frente->dato);
-        P.frente = P.frente->siguiente;
+        printf("[%d]", F.frente->dato);
+        F.frente = F.frente->siguiente;
     }
     
 }
@@ -106,110 +107,125 @@ int INCLUIDA(FILA P1, FILA P2){
     return respuesta;
 }
 
-FILA INVERTIRLISTA(FILA P){ // recibe una lista enlazada y, con la ayuda de una pila auxiliar, retorna la lista construida en orden inverso. 
+FILA INVERTIRLISTA(FILA F){ // recibe una lista enlazada y, con la ayuda de una pila auxiliar, retorna la lista construida en orden inverso. 
     FILA PAUX = FILAVACIA();
 
-    while (ESFILAVACIA(P) != 1)
+    while (ESFILAVACIA(F) != 1)
     {
-        PAUX = ENFILA(PAUX, TOP(P));
-        P = POP(P);
+        PAUX = ENFILA(PAUX, TOP(F));
+        F = POP(F);
     }   
 
     return PAUX;
 
 }
 
-FILA POP(FILA P){
+FILA POP(FILA F){
     ELEMENTO *AUX;
     
-    AUX = P.frente;
-    P.frente = P.frente->siguiente;
+    AUX = F.frente;
+    F.frente = F.frente->siguiente;
     free(AUX);
-    return P;
+    return F;
 }
 
-int ESSIMETRICA(FILA P){
+int ESSIMETRICA(FILA F){
     return 1;
 }
 
-FILA DEFILA(FILA *P){
+FILA DEFILA(FILA *F){
     ELEMENTO * AUX, *ANT;
-    AUX = P->frente;
+    AUX = F->frente;
     while (AUX->siguiente != NULL){
         ANT = AUX;
         AUX = ANT->siguiente;
     }
     ANT->siguiente = NULL;
     free(AUX);
-    return *P;
+    return *F;
 }
 
-FILA DEFILAX(FILA *P, ITEM I){
-    ELEMENTO * ACT, *ANT;
-    ACT = P->frente;
-
-    if(ACT != NULL && ACT->dato == I){        
-        P->frente = P->frente->siguiente;
-        free(ACT);
-    }else{
-
-        while (ACT != NULL){
-        if(ACT->dato == I){            
-            printf("ANT:%d, ACT:%d", ANT->dato, ACT->dato);
-            ANT->siguiente = ACT->siguiente;
-            ACT = NULL;
-            free(ACT);
-        }else{
-            ANT = ACT;
-        }        
+FILA DEFILAX(FILA *F, ITEM I){
+    ELEMENTO * ACT, *ANT, *TEMP, *AUX;
+    FILA NF = FILAVACIA();
+    ACT = F->frente;    TEMP = F->frente;
+    while (ACT != NULL) {
+        //printf("\n(%d)\n", ACT->dato);
+        if (ACT->dato != I) {            
+            NF = ENFILA(NF, ACT->dato);
+        }
+        ANT = ACT;
         ACT = ANT->siguiente;
     }
+    //free(F);
+    *F = NF;
+    /*while (ACT != NULL) {
+        if (ACT->dato == I) {
+            if (ANT == NULL) {
+                F->frente = ACT->siguiente;
+                ANT = ACT->siguiente;
+            } else {
+                ANT->siguiente = ACT->siguiente;
+            }
+            free(ACT);
+            ACT = ANT->siguiente;
+        } else {
+            ANT = ACT;
+            ACT = ACT->siguiente;
+        }
+    }*/
+    //free(F);
 
+    return *F;
+}
+
+ITEM TOP(FILA F){
+    return F.frente->dato;
+}
+
+ITEM FRENTE(FILA F){
+    if(F.longitud > 0){
+        return F.frente->dato;
     }
-
-    
-    return *P;
+    return INDEF;
 }
 
-ITEM TOP(FILA P){
-    return P.frente->dato;
-}
+FILA ENFILA(FILA F, ITEM I){
+    ELEMENTO * N = (ELEMENTO *) malloc(sizeof(ELEMENTO));
+    N->dato = I;
+    N->siguiente = NULL;
 
-ITEM FRENTE(FILA P){
-
-    while (P.frente->siguiente != NULL){
-        P.frente = P.frente->siguiente;
+    if(F.longitud == 0){
+        F.final = N;
+        F.frente = N;
+        F.longitud = F.longitud + 1;
+    }else{
+        F.final->siguiente = N;
+        F.final = N; // paso necesario, sino la fila nunca se altera
+        F.longitud = F.longitud + 1;
     }
-    return P.frente->dato;
-
+    return F;
 }
-
-FILA ENFILA(FILA P, ITEM I){
-    ELEMENTO * nuevo = (ELEMENTO *) malloc(sizeof(ELEMENTO));
-    nuevo->dato = I;
-    nuevo->siguiente = P.frente;
-    P.frente = nuevo;
-    P.altura++;
-    return P;
-}
-FILA PUSHF(FILA P, ITEM I){
+FILA PUSHF(FILA F, ITEM I){
     ELEMENTO * AUX, *ANT;
     ELEMENTO * N = (ELEMENTO *) malloc(sizeof(ELEMENTO));
     N->siguiente = NULL; N->dato = I;
-    AUX = P.frente;
+    AUX = F.frente;
     while (AUX->siguiente != NULL){
         ANT = AUX;
         AUX = ANT->siguiente;
     }
     //ANT->siguiente = NULL;
     AUX->siguiente = N;
-    return P;
+    return F;
 }
 
 FILA FILAVACIA(){
-    FILA P;
-    P.altura = 0; P.frente = NULL;
-    return P;
+    FILA F;
+    F.frente = NULL;
+    F.final = NULL;
+    F.longitud = 0;    
+    return F;
 }
 
 
