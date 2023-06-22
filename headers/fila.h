@@ -21,6 +21,7 @@ FILA FILAVACIA(); // FILA *F
 FILA ENFILA(FILA F, ITEM I);
 FILA PUSHF(FILA F, ITEM I);
 ITEM FRENTE(FILA F);
+ITEM FONDO(FILA F);
 ITEM TOP(FILA F);
 FILA POP(FILA F);
 FILA DEFILA(FILA *F);
@@ -33,6 +34,8 @@ void MOSTRAR(FILA F);
 int LONGITUD(FILA F);
 int PERTENECE(FILA F, ITEM I);
 int IGUALF(FILA F1, FILA F2);
+FILA CONCATN(FILA F1, FILA *F2, int n);
+void DEFILAV(FILA *F);
 
 int IGUALF(FILA F1, FILA F2){
     if(F1.frente != NULL && F2.frente != NULL){
@@ -120,6 +123,20 @@ FILA INVERTIRLISTA(FILA F){ // recibe una lista enlazada y, con la ayuda de una 
 
 }
 
+FILA CONCATN(FILA F1, FILA *F2, int n){
+    int aux = F2->longitud;
+    while (n > 0){ // && n < LONGITUD(*F2)
+        //printf("|| %d ||", FRENTE(*F2));
+        F1 = ENFILA(F1, FRENTE(*F2));
+        DEFILAV(F2);
+        n --; aux --;
+        if(aux == 0){
+            break;
+        }
+    }
+    return F1;
+}
+
 FILA POP(FILA F){
     ELEMENTO *AUX;
     
@@ -143,6 +160,18 @@ FILA DEFILA(FILA *F){
     ANT->siguiente = NULL;
     free(AUX);
     return *F;
+}
+
+void DEFILAV(FILA *F){
+    ELEMENTO * AUX, *ANT;
+    if(F->frente != NULL){
+        AUX = F->frente;
+        F->frente = F->frente->siguiente;
+
+        AUX->siguiente = NULL;
+        free(AUX);
+        F->longitud = F->longitud - 1;
+    }
 }
 
 FILA DEFILAX(FILA *F, ITEM I){
@@ -186,6 +215,12 @@ ITEM TOP(FILA F){
 ITEM FRENTE(FILA F){
     if(F.longitud > 0){
         return F.frente->dato;
+    }
+    return INDEF;
+}
+ITEM FONDO(FILA F){
+    if(F.longitud > 0){
+        return F.final->dato;
     }
     return INDEF;
 }
