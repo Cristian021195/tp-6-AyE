@@ -26,7 +26,7 @@ ITEM TOP(FILA F);
 FILA POP(FILA F);
 FILA DEFILA(FILA *F);
 FILA DEFILAX(FILA *F, ITEM I);
-int ESSIMETRICA(FILA F);
+//int ESSIMETRICA(FILA F);
 FILA INVERTIRLISTA(FILA F); // como usuario
 int INCLUIDA(FILA P1, FILA P2); // como usuario
 int ESFILAVACIA(FILA F);
@@ -146,9 +146,9 @@ FILA POP(FILA F){
     return F;
 }
 
-int ESSIMETRICA(FILA F){
+/*int ESSIMETRICA(FILA F){
     return 1;
-}
+}*/
 
 FILA DEFILA(FILA *F){
     ELEMENTO * AUX, *ANT;
@@ -163,7 +163,7 @@ FILA DEFILA(FILA *F){
 }
 
 void DEFILAV(FILA *F){
-    ELEMENTO * AUX, *ANT;
+    ELEMENTO * AUX;
     if(F->frente != NULL){
         AUX = F->frente;
         F->frente = F->frente->siguiente;
@@ -175,9 +175,9 @@ void DEFILAV(FILA *F){
 }
 
 FILA DEFILAX(FILA *F, ITEM I){
-    ELEMENTO * ACT, *ANT, *TEMP, *AUX;
+    ELEMENTO * ACT, *ANT;
     FILA NF = FILAVACIA();
-    ACT = F->frente;    TEMP = F->frente;
+    ACT = F->frente;
     while (ACT != NULL) {
         //printf("\n(%d)\n", ACT->dato);
         if (ACT->dato != I) {            
