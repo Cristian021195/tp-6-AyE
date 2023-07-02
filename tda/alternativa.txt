@@ -1,0 +1,47 @@
+Función elementosComunes(lista1, lista2):
+    Si longitud(lista1) == 0:
+        Devolver []
+
+    primerElemento = primer elemento de lista1
+    restoLista1 = lista1 sin el primer elemento
+
+    Si primerElemento está en lista2:
+        resultadoParcial = elementosComunes(restoLista1, lista2)
+        Devolver [primerElemento] + resultadoParcial
+    Sino:
+        Devolver elementosComunes(restoLista1, lista2)
+
+# Ejemplo de uso:
+lista1 = [1, 2, 3, 4, 5]
+lista2 = [4, 5, 6, 7, 8]
+elementosComunes = elementosComunes(lista1, lista2)
+Imprimir(elementosComunes)
+
+
+------------
+
+F1 = 4 3 5 6 1
+F2 = 2 1 4
+
+
+F1 = 3 5 6 1
+F2 = 2 1 4
+r = 4
+
+F1 = 5 6 1
+F2 = 2 1 4
+r = 4
+
+F1 = 6 1
+F2 = 2 1 4
+r = 4
+
+F1 = 1
+F2 = 2 1 4
+r = 4
+
+F1 = 
+F2 = 2 1 4
+r = 4 1
+
+Resultado: 4 1

@@ -47,17 +47,13 @@ SEMENTAICA: ∀ F1, F2 ∈ FILA, ∀ x,b,y,n ∈ ITEM, ∀ z ∈ entero > 0
         SINO            
             ENFILAN( ENFILA(F1, x), x, z - 1)
     COMUNES(F1, F2) = ...
-        SI( ESFILAVACIA(F1) OR ESFILAVACIA(F2) ) ENTONCES FILAVACIA
-        SINO 
-            SI( PERTENECE(F1, FRENTE(F2)) AND PERTENECE(F2, FRENTE(F1)) ) ENTONCES                
-                DEFILA( F2 )
-            SINO SI( NOT PERTENECE(F1, FRENTE(F2)) AND PERTENECE(F2, FRENTE(F1)) ) ENTONCES
-                DEFILA(F2)
-                ENFILA(DEFILA(F1), FRENTE(F1))
-            SINO SI( PERTENECE(F1, FRENTE(F2)) AND NOT PERTENECE(F2, FRENTE(F1)) ) ENTONCES
-                DEFILA(F1)
-                ENFILA( DEFILA(F2), FRENTE(F2))
-            COMUNES(F1, F2);
+        SI(ESFILAVACIA(F1) OR ESFILAVACIA(F2)) ENTONCES FILAVACIA
+        SINO SI( PERTENECE(F2, FRENTE(F1)) ) ENTONCES
+            ENFILA( COMUNES( DEFILA(F1), F2), FRENTE(F1))
+        SINO COMUNES(DEFILA(F1), F2)
+
+            
+
 
             
 
